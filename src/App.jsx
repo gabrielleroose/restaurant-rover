@@ -64,13 +64,14 @@ const App = () =>{
 
   return <div>
 
-    <input type="text" placeholder= "Enter a location" onChange={(e) => setLocation(e.target.value)} />
-    <input type="text" placeholder= "Desired Cuisine" onChange={(e) => setCuisine(e.target.value)} />
-    <button onClick={callToApi}>Search!</button>
+    <input className='location-style' type="text" placeholder= "Enter a location" onChange={(e) => setLocation(e.target.value)} />
+    <input className='cuisine-style' type="text" placeholder= "Desired Cuisine" onChange={(e) => setCuisine(e.target.value)} />
+    <button className='search-style' onClick={callToApi}>Search!</button>
+    <div className= 'restaurants-grid'>
     {responseFromAi.map((ele, index)=>(<div className='restaurant-wrapper' key={index}> 
-      <p><h1>Restaurant: {ele.name}</h1>
+      <div><h1>Restaurant: {ele.name}</h1>
       <h4><i>Restaurant Rating: {ele.rating}</i></h4>
-      <h5>Customer Score: {ele.customerScore}</h5></p>
+      <h5>Customer Score: {ele.customerScore}</h5></div>
 
       <p><h2>Cuisine: {ele.cuisine}</h2></p>
 
@@ -84,6 +85,7 @@ const App = () =>{
 
 
     </div>))}
+    </div>
 
     
 
