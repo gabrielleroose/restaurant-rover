@@ -1,10 +1,13 @@
 .restaurant-wrapper{
   display:flex;
   flex-direction: column;
-  border: 1px solid black;
+  border: 1px solid #F3EFF4;
   padding: 20px;
+  padding-left: 40px;
   border-radius: 5%;
-  background-color: #fff;
+  margin: 20px;
+  color: #F3EFF4;
+  background-color: #002A5C;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
@@ -35,8 +38,8 @@
   height: 40px;
   margin: 40px;
   padding: 0 15px;
-  background-color: #007bff;
-  color: white;
+  background-color: #A59B8B;
+  color: #F3EFF4;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -55,7 +58,7 @@
 }
 
 .my-navbar {
-  background-color: #333; /* A dark grey background */
+  background-color: #002A5C; /* A dark grey background */
   color: white;           /* White text */
   padding: 15px;          /* Some space inside the bar (15px on all sides) */
   text-align: center;     /* Center the title text */
