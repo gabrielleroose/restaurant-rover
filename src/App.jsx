@@ -7,6 +7,7 @@ const App = () =>{
   const [location, setLocation] = useState('')
   const [responseFromAi, setResponseFromAi] = useState([])
   const [cuisine, setCuisine] = useState('')
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const options = {
@@ -49,12 +50,15 @@ const App = () =>{
   
 
   const callToApi= async ()=>{
+    setIsLoading(true);
     try {
       const response = await axios.request(options);
       setResponseFromAi(JSON.parse(response.data.choices[0].message.content));
     
     } catch (error) {
       console.error(error);
+    } finally{
+      setIsLoading(false);
     }
 
   }
@@ -63,6 +67,17 @@ const App = () =>{
 
 
   return <div>
+
+<nav className="my-navbar">
+        <h1>Worldwide Restaurant Finder</h1>
+      </nav>
+
+{isLoading && (
+        <div className="loading-screen">
+          <p>Loading restaurants, please wait...</p>
+          {/* You could add a spinner GIF or CSS animation here too! */}
+        </div>
+      )}
 
     <input className='location-style' type="text" placeholder= "Enter a location" onChange={(e) => setLocation(e.target.value)} />
     <input className='cuisine-style' type="text" placeholder= "Desired Cuisine" onChange={(e) => setCuisine(e.target.value)} />

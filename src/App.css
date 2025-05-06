@@ -4,6 +4,15 @@
   border: 1px solid black;
   padding: 20px;
   border-radius: 5%;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.restaurant-wrapper:hover {
+  transform: scale(1.05); /* Makes the card 5% larger */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* A more pronounced shadow for the "pop" */
+  z-index: 10; /* Ensures the hovered card is on top of others */
 }
 
 .restaurants-grid{
@@ -25,4 +34,34 @@
 .search-style{
   height: 40px;
   margin: 40px;
+  padding: 0 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-size: 1.2em;
+  color: #333;
+  width: 100%; /* Make it take full width if it's a direct child */
+  min-height: 60px; /* Give it some height */
+  text-align: center;
+}
+
+.my-navbar {
+  background-color: #333; /* A dark grey background */
+  color: white;           /* White text */
+  padding: 15px;          /* Some space inside the bar (15px on all sides) */
+  text-align: center;     /* Center the title text */
+}
+
+.my-navbar h1 {
+  margin: 0; /* Remove default browser margin from h1 to keep it neat in the bar */
+  font-size: 1.5em; /* Adjust font size as you like */
 }
