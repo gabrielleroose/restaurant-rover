@@ -72,19 +72,31 @@ const App = () =>{
         <h1>Worldwide Restaurant Finder</h1>
       </nav>
 
-{isLoading && (
+      <nav className="search-navbar">
+      <input className='location-style' type="text" placeholder= "Enter a location" onChange={(e) => setLocation(e.target.value)} />
+    <input className='cuisine-style' type="text" placeholder= "Desired Cuisine" onChange={(e) => setCuisine(e.target.value)} />
+
+    <button className='search-style' onClick={callToApi}>
+    <>
+          <span role="img" aria-hidden="true">🔍</span> Search
+          {/* Or just the icon: <span role="img" aria-label="Search">🔍</span> */}
+        </></button>
+
+      </nav>
+
+
+
+    {isLoading && (
         <div className="loading-screen">
           <p>Loading restaurants, please wait...</p>
           {/* You could add a spinner GIF or CSS animation here too! */}
         </div>
       )}
 
-    <input className='location-style' type="text" placeholder= "Enter a location" onChange={(e) => setLocation(e.target.value)} />
-    <input className='cuisine-style' type="text" placeholder= "Desired Cuisine" onChange={(e) => setCuisine(e.target.value)} />
-    <button className='search-style' onClick={callToApi}>Search!</button>
+
     <div className= 'restaurants-grid'>
     {responseFromAi.map((ele, index)=>(<div className='restaurant-wrapper' key={index}> 
-      <div><h1>Restaurant: {ele.name}</h1>
+      <div><h1> {ele.name}</h1>
       <h4><i>Restaurant Rating: {ele.rating}</i></h4>
       <h5>Customer Score: {ele.customerScore}</h5></div>
 

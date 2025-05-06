@@ -6,10 +6,11 @@
   padding-left: 40px;
   border-radius: 5%;
   margin: 20px;
-  color: #F3EFF4;
-  background-color: #002A5C;
+  color: #002A5C;
+  background-color: #F3EFF4;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .restaurant-wrapper:hover {
@@ -28,18 +29,20 @@
 .location-style{
   height: 40px;
   margin: 20px;
+  border-radius: 5px;
 }
 
 .cuisine-style{
   height: 40px;
+  border-radius: 5px;
 }
 
 .search-style{
   height: 40px;
   margin: 40px;
   padding: 0 15px;
-  background-color: #A59B8B;
-  color: #F3EFF4;
+  background-color: #F3EFF4;
+  color: #002A5C;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -62,9 +65,26 @@
   color: white;           /* White text */
   padding: 15px;          /* Some space inside the bar (15px on all sides) */
   text-align: center;     /* Center the title text */
+  border-radius: 10px;
+  font-size: 61.04 px;
+  font-family: Arial, Helvetica, sans-serif;
 }
+
+.search-navbar{
+background-color: #6891A8;
+padding: 5px;
+text-align: center;
+margin-top: 20px;
+border-radius: 10px;
+font-family: Arial, Helvetica, sans-serif;
+}
+
 
 .my-navbar h1 {
   margin: 0; /* Remove default browser margin from h1 to keep it neat in the bar */
-  font-size: 1.5em; /* Adjust font size as you like */
+  font-size: 61.04 px; /* Adjust font size as you like */
+}
+
+.search-navbar h2{
+  font-size: 48.83px;
 }
