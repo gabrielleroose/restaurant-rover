@@ -32,9 +32,10 @@ const App = () =>{
             "topMenuItem": "Patatas Bravas",
             "atmosphere": "Casual",
             "dressCode": "Any",
-            "usersFavorites": "pizza, pasta, tiramisu",
+            "usersFavorites": "Pizza, Pasta, Tiramisu",
             "address": "Carrer d'en Quintana, 5, 08002 Barcelona",
             "rating": 4.6
+            "linkToSite": "https://culleretes.com/"
             }
           ]
           Now return a list of 10 ${cuisine} restaurants for this location: ${location} `
@@ -62,6 +63,10 @@ const App = () =>{
     }
 
   }
+
+  const handleClick=(url)=>{
+    window.open(url, "_blank")
+  }
   
 
 
@@ -84,6 +89,8 @@ const App = () =>{
 
       </nav>
 
+      {responseFromAi.length==0 && <p>This will be some content</p>}
+
 
 
     {isLoading && (
@@ -95,23 +102,32 @@ const App = () =>{
 
 
     <div className= 'restaurants-grid'>
-    {responseFromAi.map((ele, index)=>(<div className='restaurant-wrapper' key={index}> 
+    {responseFromAi.map((ele, index)=>(<div onClick={()=>handleClick(ele.linkToSite)} className='restaurant-wrapper' key={index}> 
       <div><h1> {ele.name}</h1>
       <h4><i>Restaurant Rating: {ele.rating}</i></h4>
       <h5>Customer Score: {ele.customerScore}</h5></div>
 
       <p><h2>Cuisine: {ele.cuisine}</h2></p>
 
-      <p>Atmosphere: {ele.atmosphere}</p>
-      <p>Dress Code: {ele.dressCode}</p>
-      <p>Top Menu Item: {ele.topMenuItem}</p>
-      <p>Menu Favorites: {ele.usersFavorites}</p>
-      <p>Average Price/Person: {ele.averagePerPerson}</p>
-      <p>Address: {ele.address}</p>
+      <p><b>Atmosphere:</b> {ele.atmosphere}</p>
+      <p><b>Dress Code:</b> {ele.dressCode}</p>
+      <p><b>Top Menu Item:</b> {ele.topMenuItem}</p>
+      <p><b>Menu Favorites:</b> {ele.usersFavorites}</p>
+      <p><b>Average Price/Person:</b> {ele.averagePerPerson}</p>
+      <p><b>Address:</b> {ele.address}</p>
       
 
 
     </div>))}
+    </div>
+
+    <div className= "footer">
+      <footer>
+        <h4>Gabrielle Roose - All rights Reserved <br /> May 6, 2025 / Barcelona, Spain</h4>
+        
+      </footer>
+
+
     </div>
 
     

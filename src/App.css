@@ -30,22 +30,43 @@
   height: 40px;
   margin: 20px;
   border-radius: 5px;
+  text-align: center;
+}
+
+.location-style:hover {
+  transform: scale(1.05); /* Makes the card 5% larger */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* A more pronounced shadow for the "pop" */
+  z-index: 10; /* Ensures the hovered card is on top of others */
 }
 
 .cuisine-style{
   height: 40px;
+  margin: 20px;
   border-radius: 5px;
+  text-align: center;
+}
+
+.cuisine-style:hover {
+  transform: scale(1.05); /* Makes the card 5% larger */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* A more pronounced shadow for the "pop" */
+  z-index: 10; /* Ensures the hovered card is on top of others */
 }
 
 .search-style{
   height: 40px;
-  margin: 40px;
+  margin: 20px;
   padding: 0 15px;
   background-color: #F3EFF4;
   color: #002A5C;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.search-style:hover {
+  transform: scale(1.05); /* Makes the card 5% larger */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* A more pronounced shadow for the "pop" */
+  z-index: 10; /* Ensures the hovered card is on top of others */
 }
 
 .loading-screen {
@@ -58,6 +79,7 @@
   width: 100%; /* Make it take full width if it's a direct child */
   min-height: 60px; /* Give it some height */
   text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .my-navbar {
@@ -68,10 +90,16 @@
   border-radius: 10px;
   font-size: 61.04 px;
   font-family: Arial, Helvetica, sans-serif;
+  position: sticky;
+  top: 0; /* Stick to the very top of the viewport */
+  left: 0; /* Ensures it aligns to the left edge */
+  width: 100%; /* Make the navbar span the full width */
+  z-index: 1000; /* Keeps the navbar on top of other content when scrolling */
+  box-sizing: border-box; /* Ensures padding and border don't add to the width: 100% */
 }
 
 .search-navbar{
-background-color: #6891A8;
+background-color: #7DA5BD;
 padding: 5px;
 text-align: center;
 margin-top: 20px;
@@ -87,4 +115,20 @@ font-family: Arial, Helvetica, sans-serif;
 
 .search-navbar h2{
   font-size: 48.83px;
+}
+
+.footer{
+  background-color: #002A5C; /* A dark grey background */
+  color: white;           /* White text */
+  padding: 5px;          /* Some space inside the bar (15px on all sides) */
+  text-align: center;     /* Center the title text */
+  border-radius: 10px;
+  font-size: 61.04 px;
+  font-family: Arial, Helvetica, sans-serif;
+  position: fixed; bottom: 0; left: 0; width: 100%;
+
+}
+
+.footer h4 {
+  margin: 5px 0; /* Add a little space between the paragraphs if they stack */
 }
