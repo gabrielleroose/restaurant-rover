@@ -55,7 +55,7 @@ const App = () =>{
             "linkToSite": "https://culleretes.com/"
             }
           ]
-          Now return a list of 10 ${cuisine} restaurants for this location: ${location} `
+          Now return a list of 10 ${cuisine?.value} restaurants for this location: ${location} `
         }
       ],
       model: 'gpt-4o-mini'
