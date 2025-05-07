@@ -12,6 +12,8 @@ const searchOptions = [
   { value: 'american', label: 'American' },
   { value: 'spanish', label: 'Spainsh' },
   { value: 'Japanese', label: 'Japanese' },
+  { value: 'Middle-Eastern', label: 'Middle-Eastern' },
+  { value: 'Italian', label: 'Italian' }
 ];
 
 
@@ -95,11 +97,10 @@ const App = () =>{
       <nav className="search-navbar">
       
       <input className='location-style' type="text" placeholder= "Enter a location" onChange={(e) => setLocation(e.target.value)} />
-    <input className='cuisine-style' type="text" placeholder= "Desired Cuisine" onChange={(e) => setCuisine(e.target.value)} />
     
     <Select
         defaultValue={cuisine}
-        onChange={(e) => setCuisine(e.target.value)}
+        onChange={setCuisine}
         options={searchOptions}
         className= 'cuisine-style'
         placeholder= "Desired Cuisine"
