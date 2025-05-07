@@ -132,3 +132,17 @@ font-family: Arial, Helvetica, sans-serif;
 .footer h4 {
   margin: 5px 0; /* Add a little space between the paragraphs if they stack */
 }
+
+.foodImages{
+
+}
+
+.imagesFlex{
+  display: flex;
+  
+}
+
+img{
+  width: 33%;
+  height: fit-content;
+}

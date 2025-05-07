@@ -1,12 +1,27 @@
 import { useState } from 'react'
-// import headShot from './assets/groose.jpg'
+import Select from 'react-select';
 import './App.css'
 import axios from 'axios';
+import headshot from './images/groose.jpg'
+import americanFoodImage from './images/AI-american.jpg'
+import japaneseFoodImage from './images/AI-japanese.jpg'
+import spanishFoodImage from './images/AI-spanish.jpg'
+
+
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
+
+
+   
+
 
 const App = () =>{
   const [location, setLocation] = useState('')
   const [responseFromAi, setResponseFromAi] = useState([])
-  const [cuisine, setCuisine] = useState('')
+  const [cuisine, setCuisine] = useState(null)
   const [isLoading, setIsLoading] = useState(false);
 
 
@@ -78,6 +93,11 @@ const App = () =>{
       </nav>
 
       <nav className="search-navbar">
+      <Select
+        defaultValue={cuisine}
+        onChange={setCuisine}
+        options={options}
+      />
       <input className='location-style' type="text" placeholder= "Enter a location" onChange={(e) => setLocation(e.target.value)} />
     <input className='cuisine-style' type="text" placeholder= "Desired Cuisine" onChange={(e) => setCuisine(e.target.value)} />
 
@@ -89,7 +109,14 @@ const App = () =>{
 
       </nav>
 
-      {responseFromAi.length==0 && <p>This will be some content</p>}
+  
+
+
+      {responseFromAi.length==0 && <div className='imagesFlex'> 
+        <img className='foodImages' src={americanFoodImage} alt="Picture of a cheeseburger and fries" /> <img src={japaneseFoodImage} alt="Japanese cuisine" />
+        <img src={spanishFoodImage} alt="Spanish cuisine" />
+
+        </div>}
 
 
 
