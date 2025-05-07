@@ -8,10 +8,10 @@ import japaneseFoodImage from './images/AI-japanese.jpg'
 import spanishFoodImage from './images/AI-spanish.jpg'
 
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
+const searchOptions = [
+  { value: 'american', label: 'American' },
+  { value: 'spanish', label: 'Spainsh' },
+  { value: 'Japanese', label: 'Japanese' },
 ];
 
 
@@ -29,7 +29,7 @@ const App = () =>{
     method: 'POST',
     url: 'https://chatgpt-42.p.rapidapi.com/chat',
     headers: {
-      'x-rapidapi-key': 'acc8a56a93msh48709932071e291p13c243jsn711c059f145e',
+      'x-rapidapi-key': 'ea6fbcd991mshc004837dec20aeap1f20b5jsne9912198989f',
       'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
       'Content-Type': 'application/json'
     },
@@ -93,13 +93,20 @@ const App = () =>{
       </nav>
 
       <nav className="search-navbar">
-      <Select
-        defaultValue={cuisine}
-        onChange={setCuisine}
-        options={options}
-      />
+      
       <input className='location-style' type="text" placeholder= "Enter a location" onChange={(e) => setLocation(e.target.value)} />
     <input className='cuisine-style' type="text" placeholder= "Desired Cuisine" onChange={(e) => setCuisine(e.target.value)} />
+    
+    <Select
+        defaultValue={cuisine}
+        onChange={(e) => setCuisine(e.target.value)}
+        options={searchOptions}
+        className= 'cuisine-style'
+        placeholder= "Desired Cuisine"
+      />
+
+
+
 
     <button className='search-style' onClick={callToApi}>
     <>
@@ -109,7 +116,16 @@ const App = () =>{
 
       </nav>
 
+
+      {isLoading && (
+        <div className="loading-screen">
+          <p>Loading restaurants, please wait...</p>
+          {/* You could add a spinner GIF or CSS animation here too! */}
+        </div>
+      )}
+
   
+
 
 
       {responseFromAi.length==0 && <div className='imagesFlex'> 
@@ -119,13 +135,6 @@ const App = () =>{
         </div>}
 
 
-
-    {isLoading && (
-        <div className="loading-screen">
-          <p>Loading restaurants, please wait...</p>
-          {/* You could add a spinner GIF or CSS animation here too! */}
-        </div>
-      )}
 
 
     <div className= 'restaurants-grid'>
@@ -150,7 +159,7 @@ const App = () =>{
 
     <div className= "footer">
       <footer>
-        <h4>Gabrielle Roose - All rights Reserved <br /> May 6, 2025 / Barcelona, Spain</h4>
+        <h4>Gabrielle Roose - All Rights Reserved <br /> May 6, 2025 / Carrer de Paris, Barcelona, Spain</h4>
         
       </footer>
 
