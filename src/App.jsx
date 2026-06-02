@@ -2,31 +2,101 @@ import { useState } from 'react'
 import Select from 'react-select';
 import './App.css'
 import axios from 'axios';
-import headshot from './images/groose.jpg'
 import americanFoodImage from './images/AI-american.jpg'
 import japaneseFoodImage from './images/AI-japanese.jpg'
 import spanishFoodImage from './images/AI-spanish.jpg'
-
-
-const searchOptions = [
+import rrImage from './images/RR.jpg'
+ 
+const cuisineOptionsList = [
   { value: 'american', label: 'American' },
-  { value: 'spanish', label: 'Spainsh' },
-  { value: 'Japanese', label: 'Japanese' },
-  { value: 'Middle-Eastern', label: 'Middle-Eastern' },
-  { value: 'Italian', label: 'Italian' }
+  { value: 'catalan', label: 'Catalan' },
+  { value: 'chinese', label: 'Chinese' },
+  { value: 'french', label: 'French' },
+  { value: 'georgian', label: 'Georgian' },
+  { value: 'greek', label: 'Greek' },
+  { value: 'indian', label: 'Indian' },
+  { value: 'italian', label: 'Italian' },
+  { value: 'japanese', label: 'Japanese' },
+  { value: 'mexican', label: 'Mexican' },
+  { value: 'middle-eastern', label: 'Middle-Eastern' },
+  { value: 'spanish', label: 'Spanish' },
+  { value: 'thai', label: 'Thai' },
 ];
-
-
-   
-
-
-const App = () =>{
-  const [location, setLocation] = useState('')
-  const [responseFromAi, setResponseFromAi] = useState([])
-  const [cuisine, setCuisine] = useState(null)
+ 
+const selectStyles = {
+  control: (base, state) => ({
+    ...base,
+    background: '#2A1C0E',
+    border: '1px solid #3D2A18',
+    borderRadius: '8px',
+    height: '44px',
+    minHeight: '44px',
+    boxShadow: 'none',
+    '&:hover': { borderColor: '#C8521A' },
+  }),
+  valueContainer: (base) => ({
+    ...base,
+    padding: '0 16px',
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: '#7A5C40',
+    fontSize: '14px',
+    margin: 0,
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: '#FAF7F2',
+    fontSize: '14px',
+    margin: 0,
+  }),
+  input: (base) => ({
+    ...base,
+    color: '#FAF7F2',
+    margin: 0,
+    padding: 0,
+  }),
+  indicatorSeparator: () => ({ display: 'none' }),
+  dropdownIndicator: (base) => ({
+    ...base,
+    color: '#7A5C40',
+    '&:hover': { color: '#C8521A' },
+    paddingRight: '12px',
+  }),
+  menu: (base) => ({
+    ...base,
+    background: '#2A1C0E',
+    border: '1px solid #3D2A18',
+    borderRadius: '8px',
+    marginTop: '4px',
+  }),
+  option: (base, state) => ({
+    ...base,
+    background: state.isFocused ? '#3D2A18' : 'transparent',
+    color: state.isFocused ? '#FAF7F2' : '#A08060',
+    fontSize: '14px',
+    cursor: 'pointer',
+  }),
+};
+ 
+const StarRating = ({ rating }) => {
+  const stars = [];
+  const full = Math.floor(rating);
+  const half = rating % 1 >= 0.5;
+  for (let i = 0; i < 5; i++) {
+    if (i < full) stars.push('★');
+    else if (i === full && half) stars.push('½');
+    else stars.push('☆');
+  }
+  return <span className="rr-stars-display">{stars.join('')}</span>;
+};
+ 
+const App = () => {
+  const [location, setLocation] = useState('');
+  const [responseFromAi, setResponseFromAi] = useState([]);
+  const [cuisine, setCuisine] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-
+ 
   const options = {
     method: 'POST',
     url: 'https://chatgpt-42.p.rapidapi.com/chat',
@@ -42,7 +112,7 @@ const App = () =>{
           content: `Return ONLY this JSON array of restaurants. No text, no markdown, no explanation.
           [
             {
-              "name": "Can Culleretes",
+            "name": "Can Culleretes",
             "cuisine": "Catalan",
             "averagePerPerson": "10 - 30 euros",
             "customerScore": "4.5",
@@ -51,136 +121,164 @@ const App = () =>{
             "dressCode": "Any",
             "usersFavorites": "Pizza, Pasta, Tiramisu",
             "address": "Carrer d'en Quintana, 5, 08002 Barcelona",
-            "rating": 4.6
+            "rating": 4.6,
             "linkToSite": "https://culleretes.com/"
             }
           ]
-          Now return a list of 10 ${cuisine?.value} restaurants for this location: ${location} `
+          Now return a list of 10 ${cuisine?.value} restaurants for this location: ${location}`
         }
       ],
       model: 'gpt-4o-mini'
     }
   };
-  
-
-  
-
-  
-
-  const callToApi= async ()=>{
+ 
+  const callToApi = async () => {
     setIsLoading(true);
     try {
       const response = await axios.request(options);
       setResponseFromAi(JSON.parse(response.data.choices[0].message.content));
-    
     } catch (error) {
       console.error(error);
-    } finally{
+    } finally {
       setIsLoading(false);
     }
-
-  }
-
-  const handleClick=(url)=>{
-    window.open(url, "_blank")
-  }
-  
-
-
-
-  return <div>
-
-<nav className="my-navbar">
-        <h1>Worldwide Restaurant Finder</h1>
+  };
+ 
+  const handleClick = (url) => {
+    window.open(url, '_blank');
+  };
+ 
+  return (
+    <div className="rr-root">
+ 
+      {/* Top nav */}
+      <nav className="rr-nav">
+        <div className="rr-nav-logo">
+          <img src={rrImage} alt="Restaurant Rover logo" />
+        </div>
+        <span className="rr-nav-title">Restaurant Rover</span>
+        <span className="rr-nav-sub">Find your table anywhere</span>
       </nav>
-
-      <nav className="search-navbar">
-      
-      <input className='location-style' type="text" placeholder= "Enter a location" onChange={(e) => setLocation(e.target.value)} />
-    
-    <Select
-        defaultValue={cuisine}
-        onChange={setCuisine}
-        options={searchOptions}
-        className= 'cuisine-style'
-        placeholder= "Desired Cuisine"
-      />
-
-
-
-
-    <button className='search-style' onClick={callToApi}>
-    <>
-          <span role="img" aria-hidden="true">🔍</span> Search
-          {/* Or just the icon: <span role="img" aria-label="Search">🔍</span> */}
-        </></button>
-
-      </nav>
-
-
+ 
+      {/* Hero + search */}
+      <div className="rr-hero">
+        <div className="rr-hero-eyebrow">Curated dining discovery</div>
+        <h1 className="rr-hero-headline">
+          Find your next<br /><span>perfect meal</span>
+        </h1>
+        <p className="rr-hero-desc">
+          Enter a city, pick a cuisine — we'll surface 10 handpicked restaurants worth your time.
+        </p>
+        <div className="rr-search-bar">
+          <input
+            className="rr-location-input"
+            type="text"
+            placeholder="📍  City or neighborhood"
+            onChange={(e) => setLocation(e.target.value)}
+          />
+          <Select
+            value={cuisine}
+            onChange={setCuisine}
+            options={cuisineOptionsList}
+            styles={selectStyles}
+            placeholder="🍽  Desired cuisine"
+            className="rr-cuisine-select"
+          />
+          <button className="rr-search-btn" onClick={callToApi}>
+            🔍 Search
+          </button>
+        </div>
+      </div>
+ 
+      {/* Loading */}
       {isLoading && (
-        <div className="loading-screen">
-          <p>Loading restaurants, please wait...</p>
-          {/* You could add a spinner GIF or CSS animation here too! */}
+        <div className="rr-loading">
+          <div className="rr-loading-spinner" />
+          <p>Scouting restaurants, please wait…</p>
         </div>
       )}
-
-  
-
-
-
-      {responseFromAi.length==0 && <div className='imagesFlex'> 
-        <img className='foodImages' src={americanFoodImage} alt="Picture of a cheeseburger and fries" /> <img src={japaneseFoodImage} alt="Japanese cuisine" />
-        <img src={spanishFoodImage} alt="Spanish cuisine" />
-
-        </div>}
-
-
-
-
-    <div className= 'restaurants-grid'>
-    {responseFromAi.map((ele, index)=>(<div onClick={()=>handleClick(ele.linkToSite)} className='restaurant-wrapper' key={index}> 
-      <div><h1> {ele.name}</h1>
-      <h4><i>Restaurant Rating: {ele.rating}</i></h4>
-      <h5>Customer Score: {ele.customerScore}</h5></div>
-
-      <p><h2>Cuisine: {ele.cuisine}</h2></p>
-
-      <p><b>Atmosphere:</b> {ele.atmosphere}</p>
-      <p><b>Dress Code:</b> {ele.dressCode}</p>
-      <p><b>Top Menu Item:</b> {ele.topMenuItem}</p>
-      <p><b>Menu Favorites:</b> {ele.usersFavorites}</p>
-      <p><b>Average Price/Person:</b> {ele.averagePerPerson}</p>
-      <p><b>Address:</b> {ele.address}</p>
-      
-
-
-    </div>))}
-    </div>
-
-    <div className= "footer">
-      <footer>
-        <h4>Gabrielle Roose - All Rights Reserved <br /> May 6, 2025 / Carrer de Paris, Barcelona, Spain</h4>
-        
+ 
+      {/* Hero images (empty state) */}
+      {!isLoading && responseFromAi.length === 0 && (
+        <div className="rr-hero-images">
+          <div className="rr-hero-img-wrap">
+            <img src={americanFoodImage} alt="American cuisine" />
+            <span className="rr-hero-img-label">American</span>
+          </div>
+          <div className="rr-hero-img-wrap">
+            <img src={japaneseFoodImage} alt="Japanese cuisine" />
+            <span className="rr-hero-img-label">Japanese</span>
+          </div>
+          <div className="rr-hero-img-wrap">
+            <img src={spanishFoodImage} alt="Spanish cuisine" />
+            <span className="rr-hero-img-label">Spanish</span>
+          </div>
+        </div>
+      )}
+ 
+      {/* Results */}
+      {responseFromAi.length > 0 && (
+        <div className="rr-results">
+          <div className="rr-section-label">
+            Results — {location} · {cuisine?.label}
+          </div>
+          <div className="rr-grid">
+            {responseFromAi.map((ele, index) => (
+              <div
+                key={index}
+                className="rr-card"
+                onClick={() => handleClick(ele.linkToSite)}
+              >
+                <div className="rr-card-num">
+                  {String(index + 1).padStart(2, '0')}
+                </div>
+                <div className="rr-card-name">{ele.name}</div>
+                <div className="rr-card-cuisine">
+                  {ele.cuisine} · {ele.atmosphere}
+                </div>
+                <div className="rr-card-rating">
+                  <StarRating rating={parseFloat(ele.rating)} />
+                  <span className="rr-rating-text">
+                    {ele.rating} · Customer score {ele.customerScore}
+                  </span>
+                </div>
+                <div className="rr-card-divider" />
+                <div className="rr-card-row">
+                  <span className="rr-label">Top menu item</span>
+                  <span className="rr-value">{ele.topMenuItem}</span>
+                </div>
+                <div className="rr-card-row">
+                  <span className="rr-label">Favorites</span>
+                  <span className="rr-value">{ele.usersFavorites}</span>
+                </div>
+                <div className="rr-card-row">
+                  <span className="rr-label">Avg per person</span>
+                  <span className="rr-value">{ele.averagePerPerson}</span>
+                </div>
+                <div className="rr-card-row">
+                  <span className="rr-label">Dress code</span>
+                  <span className="rr-value">{ele.dressCode}</span>
+                </div>
+                <div className="rr-card-address">
+                  📍 {ele.address}
+                </div>
+                <div className="rr-card-link">
+                  Visit website →
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+ 
+      {/* Footer */}
+      <footer className="rr-footer">
+        <span className="rr-footer-copy">© 2025 Restaurant Rover · All rights reserved</span>
+        <span className="rr-footer-name">Gabrielle Roose · Carrer de Paris, Barcelona</span>
       </footer>
-
-
+ 
     </div>
-
-    
-
-
-
-    {/* <p>This is going to be a search engine website</p>
-    <p>I want it to be a website where you enter your location in the top left hand corner</p>
-    <p>Then it takes the results of your input, and puts it into a return</p>
-    <p>It will then ask what you want to filter for restaurants....</p>
-    <p>Say- you're in Barcelona, want to go to a restaurant mid price, by the water, and have it be Italian or Spanish</p>
-    <p>It will then output ideas meeting the requirements of your input, and check reviews based on Google and have Google Maps pop up!</p> */}
-    </div>
-  
-}
-
-
-
-export default App
+  );
+};
+ 
+export default App;
