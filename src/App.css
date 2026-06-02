@@ -78,7 +78,7 @@ body {
 /* ─── Hero (two-column) ─────────────────────────────────── */
 .rr-hero {
   background: #1C1008;
-  padding: 52px 36px 52px;
+  padding: 52px 72px;
   position: relative;
   display: flex;
   align-items: center;

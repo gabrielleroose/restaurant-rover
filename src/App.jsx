@@ -3,7 +3,7 @@ import Select from 'react-select';
 import './App.css'
 import axios from 'axios';
 import rrImage from './images/RR.jpg'
-import rrMainImage from './images/RR--main.webp'
+import rrMainImage from './images/RR-main.webp'
  
 const cuisineOptionsList = [
   { value: 'american', label: 'American' },
@@ -140,9 +140,9 @@ const App = () => {
  
       {/* Top nav */}
       <nav className="rr-nav">
-        <div className="rr-nav-logo">
+        {/* <div className="rr-nav-logo">
           <img src={rrImage} alt="Restaurant Rover logo" />
-        </div>
+        </div> */}
         <button className="rr-nav-title" onClick={handleHomeClick}>
           Restaurant Rover
         </button>
