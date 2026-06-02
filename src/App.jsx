@@ -173,6 +173,8 @@ const App = () => {
               styles={selectStyles}
               placeholder="🍽  Desired cuisine"
               className="rr-cuisine-select"
+              menuPlacement="auto"
+              menuPosition="fixed"
             />
             <button className="rr-search-btn" onClick={callToApi}>
               🔍 Search
@@ -196,7 +198,7 @@ const App = () => {
       {responseFromAi.length > 0 && (
         <div className="rr-results">
           <div className="rr-section-label">
-            Results — {location} · {cuisine?.label}
+            <span className="results-bold">Results</span> — {location} · {cuisine?.label}
           </div>
           <div className="rr-grid">
             {responseFromAi.map((ele, index) => (

@@ -251,6 +251,10 @@ body {
   align-items: center;
   gap: 14px;
 }
+
+.results-bold{
+  font-weight: 500;
+}
  
 .rr-section-label::after {
   content: '';
