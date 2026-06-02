@@ -2,10 +2,8 @@ import { useState } from 'react'
 import Select from 'react-select';
 import './App.css'
 import axios from 'axios';
-import americanFoodImage from './images/AI-american.jpg'
-import japaneseFoodImage from './images/AI-japanese.jpg'
-import spanishFoodImage from './images/AI-spanish.jpg'
 import rrImage from './images/RR.jpg'
+import rrMainImage from './images/RR--main.webp'
  
 const cuisineOptionsList = [
   { value: 'american', label: 'American' },
@@ -24,7 +22,7 @@ const cuisineOptionsList = [
 ];
  
 const selectStyles = {
-  control: (base, state) => ({
+  control: (base) => ({
     ...base,
     background: '#2A1C0E',
     border: '1px solid #3D2A18',
@@ -34,28 +32,10 @@ const selectStyles = {
     boxShadow: 'none',
     '&:hover': { borderColor: '#C8521A' },
   }),
-  valueContainer: (base) => ({
-    ...base,
-    padding: '0 16px',
-  }),
-  placeholder: (base) => ({
-    ...base,
-    color: '#7A5C40',
-    fontSize: '14px',
-    margin: 0,
-  }),
-  singleValue: (base) => ({
-    ...base,
-    color: '#FAF7F2',
-    fontSize: '14px',
-    margin: 0,
-  }),
-  input: (base) => ({
-    ...base,
-    color: '#FAF7F2',
-    margin: 0,
-    padding: 0,
-  }),
+  valueContainer: (base) => ({ ...base, padding: '0 16px' }),
+  placeholder: (base) => ({ ...base, color: '#7A5C40', fontSize: '14px', margin: 0 }),
+  singleValue: (base) => ({ ...base, color: '#FAF7F2', fontSize: '14px', margin: 0 }),
+  input: (base) => ({ ...base, color: '#FAF7F2', margin: 0, padding: 0 }),
   indicatorSeparator: () => ({ display: 'none' }),
   dropdownIndicator: (base) => ({
     ...base,
@@ -148,6 +128,13 @@ const App = () => {
     window.open(url, '_blank');
   };
  
+  const handleHomeClick = () => {
+    setResponseFromAi([]);
+    setLocation('');
+    setCuisine(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+ 
   return (
     <div className="rr-root">
  
@@ -156,37 +143,44 @@ const App = () => {
         <div className="rr-nav-logo">
           <img src={rrImage} alt="Restaurant Rover logo" />
         </div>
-        <span className="rr-nav-title">Restaurant Rover</span>
+        <button className="rr-nav-title" onClick={handleHomeClick}>
+          Restaurant Rover
+        </button>
         <span className="rr-nav-sub">Find your table anywhere</span>
       </nav>
  
       {/* Hero + search */}
       <div className="rr-hero">
-        <div className="rr-hero-eyebrow">Curated dining discovery</div>
-        <h1 className="rr-hero-headline">
-          Find your next<br /><span>perfect meal</span>
-        </h1>
-        <p className="rr-hero-desc">
-          Enter a city, pick a cuisine — we'll surface 10 handpicked restaurants worth your time.
-        </p>
-        <div className="rr-search-bar">
-          <input
-            className="rr-location-input"
-            type="text"
-            placeholder="📍  City or neighborhood"
-            onChange={(e) => setLocation(e.target.value)}
-          />
-          <Select
-            value={cuisine}
-            onChange={setCuisine}
-            options={cuisineOptionsList}
-            styles={selectStyles}
-            placeholder="🍽  Desired cuisine"
-            className="rr-cuisine-select"
-          />
-          <button className="rr-search-btn" onClick={callToApi}>
-            🔍 Search
-          </button>
+        <div className="rr-hero-left">
+          <div className="rr-hero-eyebrow">Curated dining discovery</div>
+          <h1 className="rr-hero-headline">
+            Find your next<br /><span>perfect meal</span>
+          </h1>
+          <p className="rr-hero-desc">
+            Enter a city, pick a cuisine — we'll surface 10 handpicked restaurants worth your time.
+          </p>
+          <div className="rr-search-bar">
+            <input
+              className="rr-location-input"
+              type="text"
+              placeholder="📍  City or neighborhood"
+              onChange={(e) => setLocation(e.target.value)}
+            />
+            <Select
+              value={cuisine}
+              onChange={setCuisine}
+              options={cuisineOptionsList}
+              styles={selectStyles}
+              placeholder="🍽  Desired cuisine"
+              className="rr-cuisine-select"
+            />
+            <button className="rr-search-btn" onClick={callToApi}>
+              🔍 Search
+            </button>
+          </div>
+        </div>
+        <div className="rr-hero-right">
+          <img src={rrMainImage} alt="Dining experience" className="rr-hero-main-img" />
         </div>
       </div>
  
@@ -195,24 +189,6 @@ const App = () => {
         <div className="rr-loading">
           <div className="rr-loading-spinner" />
           <p>Scouting restaurants, please wait…</p>
-        </div>
-      )}
- 
-      {/* Hero images (empty state) */}
-      {!isLoading && responseFromAi.length === 0 && (
-        <div className="rr-hero-images">
-          <div className="rr-hero-img-wrap">
-            <img src={americanFoodImage} alt="American cuisine" />
-            <span className="rr-hero-img-label">American</span>
-          </div>
-          <div className="rr-hero-img-wrap">
-            <img src={japaneseFoodImage} alt="Japanese cuisine" />
-            <span className="rr-hero-img-label">Japanese</span>
-          </div>
-          <div className="rr-hero-img-wrap">
-            <img src={spanishFoodImage} alt="Spanish cuisine" />
-            <span className="rr-hero-img-label">Spanish</span>
-          </div>
         </div>
       )}
  
