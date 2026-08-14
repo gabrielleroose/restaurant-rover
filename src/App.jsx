@@ -132,14 +132,18 @@ const App = () => {
   };
  
   
-    const callToApi = async () => {
-      setIsLoading(true);
-      setTimeout(() => {
-        document.querySelector('.rr-loading')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
+  const callToApi = async () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      document.querySelector('.rr-loading')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
     try {
       const response = await axios.request(options);
-      setResponseFromAi(JSON.parse(response.data.choices[0].message.content));
+      const parsed = JSON.parse(response.data.choices[0].message.content);
+      setResponseFromAi(parsed);
+      setTimeout(() => {
+        document.querySelector('.rr-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     } catch (error) {
       console.error(error);
     } finally {
