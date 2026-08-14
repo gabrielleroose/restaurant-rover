@@ -441,8 +441,8 @@ body {
   .rr-nav-sub { display: none; }
   .rr-hero-headline { font-size: 34px; }
   .rr-search-bar { flex-direction: column; align-items: stretch; }
-  .rr-location-input,
-  .rr-cuisine-select { width: 100%; }
+  .rr-location-input { width: 240px;}
+  .rr-cuisine-select { width: 100%; width: 220px; }
   .rr-results { padding: 24px 20px; }
   .rr-grid { grid-template-columns: 1fr; }
   .rr-footer { flex-direction: column; gap: 4px; padding: 14px 20px; text-align: center; }

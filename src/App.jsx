@@ -131,8 +131,12 @@ const App = () => {
     }
   };
  
-  const callToApi = async () => {
-    setIsLoading(true);
+  
+    const callToApi = async () => {
+      setIsLoading(true);
+      setTimeout(() => {
+        document.querySelector('.rr-loading')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
     try {
       const response = await axios.request(options);
       setResponseFromAi(JSON.parse(response.data.choices[0].message.content));
@@ -252,7 +256,7 @@ const App = () => {
                 title="Use my current location"
                 disabled={isLocating}
               >
-                {isLocating ? '⏳' : '📡'}
+                {isLocating ? '⏳' : <span style={{ display: 'inline-block', transform: 'rotate(-45deg)', fontSize: '16px' }}>➤</span>}
               </button>
             </div>
             <Select
