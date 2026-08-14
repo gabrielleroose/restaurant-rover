@@ -423,7 +423,7 @@ body {
 }
  
 /* ─── Responsive ────────────────────────────────────────── */
-@media (max-width: 900px) {
+@media (width >=992px) {
   .rr-hero {
     flex-direction: column;
     gap: 32px;
@@ -436,7 +436,7 @@ body {
   }
 }
  
-@media (max-width: 720px) {
+@media (width >=768px) {
   .rr-nav { padding: 14px 20px; }
   .rr-nav-sub { display: none; }
   .rr-hero-headline { font-size: 34px; }
