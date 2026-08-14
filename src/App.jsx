@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Select from 'react-select';
 import './App.css'
 import axios from 'axios';
@@ -20,6 +20,20 @@ const cuisineOptionsList = [
   { value: 'spanish', label: 'Spanish' },
   { value: 'thai', label: 'Thai' },
 ];
+
+const PRICE_TIERS = [
+  { label: '$', max: 15 },
+  { label: '$$', max: 30 },
+  { label: '$$$', max: 60 },
+  { label: '$$$$', max: Infinity },
+];
+
+const parseMaxPrice = (str) => {
+  if (!str) return Infinity;
+  const nums = str.match(/\d+/g);
+  if (!nums) return Infinity;
+  return parseInt(nums[nums.length - 1], 10);
+};
  
 const selectStyles = {
   control: (base) => ({
@@ -76,6 +90,11 @@ const App = () => {
   const [responseFromAi, setResponseFromAi] = useState([]);
   const [cuisine, setCuisine] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [locationInput, setLocationInput] = useState('');
+  const [isLocating, setIsLocating] = useState(false);
+  const [activePriceTiers, setActivePriceTiers] = useState([]);
+  const [sortOrder, setSortOrder] = useState('none');
  
   const options = {
     method: 'POST',
@@ -134,6 +153,62 @@ const App = () => {
     setCuisine(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const handleUseMyLocation = () => {
+    if (!navigator.geolocation) return;
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const { latitude, longitude } = pos.coords;
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+          );
+          const data = await res.json();
+          const city =
+            data.address.city ||
+            data.address.town ||
+            data.address.village ||
+            data.address.county ||
+            'your location';
+          setLocationInput(city);
+          setLocation(city);
+        } catch {
+          setLocationInput('Could not detect location');
+        } finally {
+          setIsLocating(false);
+        }
+      },
+      () => { setIsLocating(false); }
+    );
+  };
+  
+  const togglePriceTier = (label) => {
+    setActivePriceTiers((prev) =>
+      prev.includes(label) ? prev.filter((t) => t !== label) : [...prev, label]
+    );
+  };
+  
+  const displayedResults = useMemo(() => {
+    let results = [...responseFromAi];
+    if (activePriceTiers.length > 0) {
+      results = results.filter((r) => {
+        const max = parseMaxPrice(r.averagePerPerson);
+        return activePriceTiers.some((tierLabel) => {
+          const tier = PRICE_TIERS.find((t) => t.label === tierLabel);
+          if (!tier) return false;
+          const prevMax = PRICE_TIERS[PRICE_TIERS.indexOf(tier) - 1]?.max ?? 0;
+          return max > prevMax && max <= tier.max;
+        });
+      });
+    }
+    if (sortOrder === 'high') {
+      results.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+    } else if (sortOrder === 'low') {
+      results.sort((a, b) => parseFloat(a.rating) - parseFloat(b.rating));
+    }
+    return results;
+  }, [responseFromAi, activePriceTiers, sortOrder]);
  
   return (
     <div className="rr-root">
@@ -160,12 +235,26 @@ const App = () => {
             Enter a city, pick a cuisine — we'll surface 10 handpicked restaurants worth your time.
           </p>
           <div className="rr-search-bar">
-            <input
-              className="rr-location-input"
-              type="text"
-              placeholder="📍  City or neighborhood"
-              onChange={(e) => setLocation(e.target.value)}
-            />
+          <div className="rr-location-wrap">
+              <input
+                className="rr-location-input"
+                type="text"
+                placeholder="📍  City or neighborhood"
+                value={locationInput}
+                onChange={(e) => {
+                  setLocationInput(e.target.value);
+                  setLocation(e.target.value);
+                }}
+              />
+              <button
+                className="rr-locate-btn"
+                onClick={handleUseMyLocation}
+                title="Use my current location"
+                disabled={isLocating}
+              >
+                {isLocating ? '⏳' : '📡'}
+              </button>
+            </div>
             <Select
               value={cuisine}
               onChange={setCuisine}
@@ -200,8 +289,55 @@ const App = () => {
           <div className="rr-section-label">
             <span className="results-bold">Results</span> — {location} · {cuisine?.label}
           </div>
+          {/* Filter */}
+                  <div className="rr-filter-bar">
+          <div className="rr-filter-group">
+            <span className="rr-filter-label">Price</span>
+            <div className="rr-price-toggles">
+              {PRICE_TIERS.map((tier) => (
+                <button
+                  key={tier.label}
+                  className={`rr-price-btn ${activePriceTiers.includes(tier.label) ? 'active' : ''}`}
+                  onClick={() => togglePriceTier(tier.label)}
+                >
+                  {tier.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="rr-filter-group">
+            <span className="rr-filter-label">Sort by rating</span>
+            <div className="rr-sort-toggles">
+              <button
+                className={`rr-sort-btn ${sortOrder === 'high' ? 'active' : ''}`}
+                onClick={() => setSortOrder(sortOrder === 'high' ? 'none' : 'high')}
+              >
+                High → Low
+              </button>
+              <button
+                className={`rr-sort-btn ${sortOrder === 'low' ? 'active' : ''}`}
+                onClick={() => setSortOrder(sortOrder === 'low' ? 'none' : 'low')}
+              >
+                Low → High
+              </button>
+            </div>
+          </div>
+          {(activePriceTiers.length > 0 || sortOrder !== 'none') && (
+            <button
+              className="rr-clear-btn"
+              onClick={() => { setActivePriceTiers([]); setSortOrder('none'); }}
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+        {displayedResults.length === 0 ? (
+            <div className="rr-no-results">
+              No restaurants match your filters. Try adjusting the price range.
+            </div>
+          ) : (
           <div className="rr-grid">
-            {responseFromAi.map((ele, index) => (
+            {displayedResults.map((ele, index) => (
               <div
                 key={index}
                 className="rr-card"
@@ -246,6 +382,7 @@ const App = () => {
               </div>
             ))}
           </div>
+          )}
         </div>
       )}
  

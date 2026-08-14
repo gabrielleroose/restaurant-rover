@@ -447,3 +447,121 @@ body {
   .rr-grid { grid-template-columns: 1fr; }
   .rr-footer { flex-direction: column; gap: 4px; padding: 14px 20px; text-align: center; }
 }
+
+
+/* ─── Current location ────────────────────── */
+.rr-location-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.rr-location-input {
+  padding-right: 44px;
+}
+
+.rr-locate-btn {
+  position: absolute;
+  right: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+
+.rr-locate-btn:hover { transform: scale(1.15); }
+.rr-locate-btn:disabled { cursor: wait; opacity: 0.6; }
+
+/* ─── Filter bar ────────────────────────────────────────── */
+.rr-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding: 16px 20px;
+  background: #FFFFFF;
+  border: 1px solid #EDE6DC;
+  border-radius: 12px;
+}
+
+.rr-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rr-filter-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #A08060;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.rr-price-toggles,
+.rr-sort-toggles {
+  display: flex;
+  gap: 6px;
+}
+
+.rr-price-btn,
+.rr-sort-btn {
+  height: 34px;
+  padding: 0 14px;
+  background: #FAF7F2;
+  border: 1px solid #EDE6DC;
+  border-radius: 6px;
+  color: #7A5C40;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.rr-price-btn:hover,
+.rr-sort-btn:hover {
+  border-color: #C8521A;
+  color: #C8521A;
+}
+
+.rr-price-btn.active,
+.rr-sort-btn.active {
+  background: #C8521A;
+  border-color: #C8521A;
+  color: #FAF7F2;
+}
+
+.rr-clear-btn {
+  margin-left: auto;
+  height: 34px;
+  padding: 0 14px;
+  background: none;
+  border: 1px dashed #C8521A;
+  border-radius: 6px;
+  color: #C8521A;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.rr-clear-btn:hover {
+  background: #C8521A;
+  color: #FAF7F2;
+}
+
+.rr-no-results {
+  text-align: center;
+  padding: 48px 20px;
+  color: #A08060;
+  font-size: 15px;
+  font-weight: 300;
+}
