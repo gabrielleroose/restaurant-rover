@@ -162,7 +162,7 @@ body {
   color: #FAF7F2;
   font-size: 14px;
   font-family: 'DM Sans', sans-serif;
-  width: 200px;
+  width: 240px;
   outline: none;
   transition: border-color 0.2s;
 }
@@ -176,7 +176,7 @@ body {
 }
  
 .rr-cuisine-select {
-  width: 190px;
+  width: 220px;
 }
  
 .rr-search-btn {
