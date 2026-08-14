@@ -360,9 +360,9 @@ const App = () => {
                 </div>
                 <div className="rr-card-rating">
                   <StarRating rating={parseFloat(ele.rating)} />
-                  <span className="rr-rating-text">
+                  {/* <span className="rr-rating-text">
                     {ele.rating} · Customer score {ele.customerScore}
-                  </span>
+                  </span> */}
                 </div>
                 <div className="rr-card-divider" />
                 <div className="rr-card-row">
